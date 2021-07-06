@@ -98,7 +98,7 @@ int con_push(con_queue_t *restrict queue, void *restrict new_element) {
 
     /* Add to queue with lock */
     mtx_lock(queue->last_mutex);
-    AAA;
+    queue->last->next = node;
     queue->last = node;
     mtx_unlock(queue->last_mutex);
 
@@ -122,8 +122,8 @@ void *con_pop(con_queue_t *queue) {
     }
 
     /* Queue not empty: retrieve data and rewire */
-    void *return_value = BBB;
-    CCC;
+    void *return_value = node->value;
+    queue->first = new_header;
 
     mtx_unlock(queue->first_mutex);
 
