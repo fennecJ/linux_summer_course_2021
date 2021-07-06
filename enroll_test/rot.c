@@ -7,6 +7,12 @@
         c &= mask;                                                             \
                                                                                \
         return ((v << c) | (v >> (bits - c)));                                 \
+    }                                                                          \
+    static inline type rotr##bits(const type v, int c) {                       \
+        const int mask = (bits) - (1);                                         \
+        c &= mask;                                                             \
+                                                                               \
+        return ((v >> c) | (v << (bits - c)));                                 \
     }
 #define DECLARE_ROTATE(bits) __DECLARE_ROTATE(bits, uint##bits##_t)
 
@@ -29,7 +35,13 @@ DECLARE_BITS_PRINT(32);
 int main() {
     print32(-8);
     print32(rotl32(-8, 5));
-
+    printf("\n");
     print32(7);
     print32(rotl32(7, 4));
+    printf("\n");
+    print32(-8);
+    print32(rotr32(-8, 2));
+    printf("\n");
+    print32(9);
+    print32(rotr32(9, 15));
 }
